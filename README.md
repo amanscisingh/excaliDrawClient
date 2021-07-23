@@ -10,7 +10,23 @@
     <li> Recieved the image and uploaded it to mongodb </li>
     <li> rendered a UI using ejs templating engine in node, <a href="https://github.com/amanscisingh/excaliDrawServer"> link to backend repo <i>(go through the readme file there)</i> </a> </li>
   </ul>
-  
+  <br>
+  To Run follow these steps:
+  <br>
+  <b >Step 1: </b>
+
+
+```bash
+npm install
+```
+
+<b >Step 2: </b>
+
+```bash
+npm start
+```
+  <br>
+  and you are ready to go✌
 </p>
 
 <hr>
