@@ -29,6 +29,13 @@ npm start
   and you are ready to go✌
 </p>
 
+#installed dependencied👇
+<br>
+![image](https://user-images.githubusercontent.com/68449680/126754901-eb24b16a-1808-4168-8a27-09af83c01f57.png)
+
+
 <hr>
+
+
 
 
