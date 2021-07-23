@@ -1,6 +1,6 @@
 
 <p>
-  Code Added By Aman Singh:
+  Code Added By Aman Singh: <br><br>
   Files I changed: \src\components\ImageExportDialog.tsx
   Lines at where I changed the code: line 193 - line 231
   What I did:
