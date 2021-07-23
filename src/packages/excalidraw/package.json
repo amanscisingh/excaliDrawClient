@@ -7,7 +7,7 @@
     "dist/*",
     "types/*"
   ],
-  "publishConfig": {
+  "publish": {
     "access": "public"
   },
   "description": "Excalidraw as a React component",

@@ -59,7 +59,7 @@ export type ExportCB = (
 
 const ExportButton: React.FC<{
   color: keyof OpenColor;
-  onClick: () => void;
+  onClick:  () => void;
   title: string;
   shade?: number;
 }> = ({ children, title, onClick, color, shade = 6 }) => {
@@ -126,8 +126,21 @@ const ImageExportModal = ({
       // if converting to blob fails, there's some problem that will
       // likely prevent preview and export (e.g. canvas too big)
       canvasToBlob(canvas)
-        .then(() => {
+        .then( async (blob) => {
+          console.log("hey bhagwan meri kismat khol de na");
           renderPreview(canvas, previewNode);
+          console.log(blob);
+          const formData = new FormData();
+          formData.append("file", blob, "exported.png");
+
+            axios.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+          
         })
         .catch((error) => {
           console.error(error);
@@ -147,116 +160,11 @@ const ImageExportModal = ({
 
   return (
     <div className="ExportDialog">
-      <div className="ExportDialog__preview" ref={previewRef} />
-      {supportsContextFilters &&
-        actionManager.renderAction("exportWithDarkMode")}
-      <div style={{ display: "grid", gridTemplateColumns: "1fr" }}>
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(190px, 1fr))",
-            // dunno why this is needed, but when the items wrap it creates
-            // an overflow
-            overflow: "hidden",
-          }}
-        >
-          {actionManager.renderAction("changeExportBackground")}
-          {someElementIsSelected && (
-            <CheckboxItem
-              checked={exportSelected}
-              onChange={(checked) => setExportSelected(checked)}
-            >
-              {t("labels.onlySelected")}
-            </CheckboxItem>
-          )}
-          {actionManager.renderAction("changeExportEmbedScene")}
-        </div>
-      </div>
-      <div style={{ display: "flex", alignItems: "center", marginTop: ".6em" }}>
-        <Stack.Row gap={2}>
-          {actionManager.renderAction("changeExportScale")}
-        </Stack.Row>
-        <p style={{ marginLeft: "1em", userSelect: "none" }}>Scale</p>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          margin: ".6em 0",
-        }}
-      >
-        {!fsSupported && actionManager.renderAction("changeProjectName")}
-      </div>
-      <Stack.Row gap={2} justifyContent="center" style={{ margin: "2em 0" }}>
-
-        {/* Adding button for file upload */}
-        <ExportButton
-          color="green"
-          title={t("buttons.exportToSvg")}
-          aria-label={t("buttons.exportToSvg")}
+      <h3>Image has been saved to Database</h3>
+      <div className="ExportDialog__preview" ref={previewRef} style={ {visibility: "hidden"} } />    
+      
+      <Stack.Row gap={2} justifyContent="center" style={{ margin: "2em 0" }}>   
         
-          onClick={ () => { const a = exportedElements;
-            //create a new canvas with the current elements
-            const canvas = exportToCanvas(a, appState, {
-              exportBackground,
-              viewBackgroundColor,
-              exportPadding,
-            });
-            console.log(canvas);
-            
-            //exports the canvas to png
-            
-            canvasToBlob(canvas)
-              .then( async (blob) => {
-                //saves the blob to the local storage
-                console.log(blob);
-                const formData = new FormData();
-                formData.append("file", blob, "exported.png");
-
-                  axios.post('/upload', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-                  .then(function (response) {
-                    console.log(response);
-                  })
-                  .catch(function (error) {
-                    console.log(error);
-                  });
-                
-              })
-                        
-            }
-           }
-        >
-          ☁
-        </ExportButton>
-
-
-        <ExportButton
-          color="indigo"
-          title={t("buttons.exportToPng")}
-          aria-label={t("buttons.exportToPng")}
-          onClick={() => onExportToPng(exportedElements)}
-        >
-          PNG
-        </ExportButton>
-        <ExportButton
-          color="red"
-          title={t("buttons.exportToSvg")}
-          aria-label={t("buttons.exportToSvg")}
-          onClick={() => onExportToSvg(exportedElements)}
-        >
-          SVG
-        </ExportButton>
-        {probablySupportsClipboardBlob && (
-          <ExportButton
-            title={t("buttons.copyPngToClipboard")}
-            onClick={() => onExportToClipboard(exportedElements)}
-            color="gray"
-            shade={7}
-          >
-            {clipboard}
-          </ExportButton>
-        )}
       </Stack.Row>
     </div>
   );

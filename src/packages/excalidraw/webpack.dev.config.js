@@ -90,5 +90,8 @@ module.exports = {
       commonjs: "react-dom",
       amd: "react-dom",
     },
+    config: JSON.stringify({
+      apiUrl: '/api'
+    })
   },
 };

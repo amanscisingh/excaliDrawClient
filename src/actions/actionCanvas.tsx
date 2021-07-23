@@ -19,6 +19,7 @@ import { getShortcutKey } from "../utils";
 import { register } from "./register";
 import { Tooltip } from "../components/Tooltip";
 
+
 export const actionChangeViewBackgroundColor = register({
   name: "changeViewBackgroundColor",
   perform: (_, appState, value) => {
@@ -82,6 +83,10 @@ export const actionClearCanvas = register({
     />
   ),
 });
+
+// ill add my code here
+
+
 
 export const actionZoomIn = register({
   name: "zoomIn",
